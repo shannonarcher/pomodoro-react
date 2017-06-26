@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+@import url('https://fonts.googleapis.com/css?family=Material+Icons');
+
+.timer {
+    font-size:96px;
+}
+.center-text {
+    text-align:center;
+}
+.padding-bottom-15px {
+    padding-bottom:15px;
+}
+
+.number-input__value {
+    font-size:64px;
+    margin:0 20px;
+}
