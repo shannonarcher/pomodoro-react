@@ -6,7 +6,8 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {PomodoroMain} from './pd-main/pd-main.component';
+
+import PomodoroMain from './pd-main/pd-main.component';
 
 import './index.css';
 

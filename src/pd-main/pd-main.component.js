@@ -8,7 +8,8 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import AppBar from 'material-ui/AppBar';
 
-import {PomodoroNumberInput} from '../pd-number-input/pd-number-input.component.js';
+import {translate} from '../pd-translate/pd-translate.service';
+import {PomodoroNumberInput} from '../pd-number-input/pd-number-input.component';
 
 const startIcon = <FontIcon className="material-icons">play_arrow</FontIcon>
 const pauseIcon = <FontIcon className="material-icons">pause</FontIcon>
@@ -17,9 +18,10 @@ const resetIcon = <FontIcon className="material-icons">restore</FontIcon>
 const DEFAULT_REST_TIME = 5;
 const DEFAULT_SESSION_TIME = 25;
 
-export class PomodoroMain extends React.Component {
-    constructor() {
+class PomodoroMain extends React.Component {
+    constructor(props) {
         super();
+
         this.state = {
             resting: false,
             running: false,
@@ -37,6 +39,8 @@ export class PomodoroMain extends React.Component {
             sessionTime: DEFAULT_SESSION_TIME,
             restTime: DEFAULT_REST_TIME
         };
+
+        this.t = props.t;
 
         Notification.requestPermission();
     }
@@ -98,7 +102,7 @@ export class PomodoroMain extends React.Component {
 
         if (currentTime < this.state.timeAtRun.restTime * 60 && !this.state.resting) {
             this.setState({ resting: true });
-            this.notify('Session complete.\nTake a break :)');
+            this.notify(this.t("NOTIFICATIONS.REST"));
         }
         
         if (!this.state.resting) {
@@ -112,7 +116,7 @@ export class PomodoroMain extends React.Component {
             currentTime = 0;
             this.reset();
             this.setState({ sessionNo: this.state.sessionNo + 1 });
-            this.notify(`Rest complete.\nRunning session #${this.state.sessionNo}`);
+            this.notify(this.t("NOTIFICATIONS.COMPLETE", { n: this.state.sessionNo }));
         }
 
         this.setState({
@@ -133,7 +137,7 @@ export class PomodoroMain extends React.Component {
         // Let's check whether notification permissions have already been granted
         else if (Notification.permission === "granted") {
             // If it's okay let's create a notification
-            new Notification('Pomodoro Says:', {
+            new Notification(this.t("NOTIFICATIONS.TITLE"), {
                 body: message,
                 icon: 'img/pomodoro.png'
             });
@@ -143,7 +147,7 @@ export class PomodoroMain extends React.Component {
             Notification.requestPermission(function (permission) {
                 // If the user accepts, let's create a notification
                 if (permission === "granted") {
-                    new Notification('Pomodoro Says:', {
+                    new Notification(this.t("NOTIFICATIONS.TITLE"), {
                         body: message,
                         icon: 'img/pomodoro.png'
                     });
@@ -154,9 +158,9 @@ export class PomodoroMain extends React.Component {
 
     setDocumentTitle(m, s) {
         if (m && s) {
-            document.title = `(${m}:${s}) Pomodoro`;
+            document.title = `(${m}:${s}) ` + this.t("APP.PAGE_TITLE");
         } else {
-            document.title = 'Pomodoro';
+            document.title = this.t("APP.PAGE_TITLE");
         }
     }
 
@@ -165,7 +169,7 @@ export class PomodoroMain extends React.Component {
             <div className="pomodoro">
                 <Paper zDepth={1}>
                     <AppBar
-                        title={<span>Pomodoro Clock</span>}
+                        title={<span>{this.t("APP.TITLE")}</span>}
                         iconElementRight={
                             <IconMenu
                                 iconButtonElement={
@@ -174,7 +178,7 @@ export class PomodoroMain extends React.Component {
                                 targetOrigin={{horizontal:'right', vertical:'top'}}
                                 anchorOrigin={{horizontal:'right', vertical:'top'}}
                             >
-                                <MenuItem onTouchTap={() => window.location.href = 'https://en.wikipedia.org/wiki/Pomodoro_Technique'} primaryText="What's Pomodoro?" />
+                                <MenuItem onTouchTap={() => window.location.href = this.t("APP.POMODORO_LINK")} primaryText={this.t("APP.WHATS_POMODORO")} />
                             </IconMenu>
                         }
                     />
@@ -182,12 +186,12 @@ export class PomodoroMain extends React.Component {
                     <div className="center-text padding-bottom-15px">
                         <div className="timer">{this.state.currentTime.minutes}:{this.state.currentTime.seconds}</div>
 
-                        <h2>Set session time (minutes):</h2>
+                        <h2>{this.t("SET_SESSION_TIME")}</h2>
                         <PomodoroNumberInput 
                             value={this.state.sessionTime}
                             setValue={m => this.setState({ sessionTime: 0.2 })}></PomodoroNumberInput>
 
-                        <h2>Set rest time (minutes):</h2>
+                        <h2>{this.t("SET_REST_TIME")}</h2>
                         <PomodoroNumberInput 
                             value={this.state.restTime}
                             setValue={m => this.setState({ restTime: 0.2 })}></PomodoroNumberInput>
@@ -195,17 +199,17 @@ export class PomodoroMain extends React.Component {
 
                     <BottomNavigation>
                         <BottomNavigationItem
-                            label="Start Session"
+                            label={this.t("ACTIONS.START")}
                             icon={startIcon}
                             onTouchTap={() => this.run()} 
                         />
                         <BottomNavigationItem
-                            label="Pause Session"
+                            label={this.t("ACTIONS.PAUSE")}
                             icon={pauseIcon}
                             onTouchTap={() => this.pause()} 
                         />
                         <BottomNavigationItem
-                            label="Reset Session"
+                            label={this.t("ACTIONS.RESET")}
                             icon={resetIcon}
                             onTouchTap={() => this.reset()} 
                         />
@@ -215,3 +219,5 @@ export class PomodoroMain extends React.Component {
         )
     }
 };
+
+export default translate(PomodoroMain);

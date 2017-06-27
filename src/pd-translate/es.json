@@ -1,0 +1,20 @@
+{
+    "APP": {
+        "TITLE": "Técnica Pomodoro",
+        "WHATS_POMODORO": "¿Que es Pomodoro?",
+        "POMODORO_LINK": "https://es.wikipedia.org/wiki/T%C3%A9cnica_Pomodoro",
+        "PAGE_TITLE": "Pomodoro"
+    },
+    "SET_SESSION_TIME": "Establecar el tiempo de sesión (minutos):",
+    "SET_REST_TIME": "Establecar tiempo de descanso (minutos):",
+    "ACTIONS": {
+        "START": "Iniciar Sesión",
+        "PAUSE": "Pausa Sesión",
+        "RESET": "Reiniciar la Sesión"
+    },
+    "NOTIFICATIONS": {
+        "TITLE": "Pomodoro dice:",
+        "REST": "Sesión completa.\nTomar pausa :)",
+        "COMPLETE": "Descanso completo.\nInicio de Sesión #%{n}"
+    }
+}

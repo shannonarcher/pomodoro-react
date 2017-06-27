@@ -1,0 +1,20 @@
+{
+    "APP": {
+        "TITLE": "Pomodoro Clock",
+        "WHATS_POMODORO": "What's Pomodoro?",
+        "POMODORO_LINK": "https://en.wikipedia.org/wiki/Pomodoro_Technique",
+        "PAGE_TITLE": "Pomodoro"
+    },
+    "SET_SESSION_TIME": "Set session time (minutes):",
+    "SET_REST_TIME": "Set rest time (minutes):",
+    "ACTIONS": {
+        "START": "Start Session",
+        "PAUSE": "Pause Session",
+        "RESET": "Reset Session"
+    },
+    "NOTIFICATIONS": {
+        "TITLE": "Pomodoro Says:",
+        "REST": "Session complete.\nTake a break :)",
+        "COMPLETE": "Rest complete.\nRunning Session #%{n}"
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "APP": {
+        "TITLE": "ポモドロの時計",
+        "WHATS_POMODORO": "何がポモドロ？",
+        "POMODORO_LINK": "https://en.wikipedia.org/wiki/Pomodoro_Technique",
+        "PAGE_TITLE": "ポモドロ"
+    },
+    "SET_SESSION_TIME": "セッションの時を設定する（分）",
+    "SET_REST_TIME": "休暇の時を設定する（分）",
+    "ACTIONS": {
+        "START": "セッションを始め",
+        "PAUSE": "休止する",
+        "RESET": "レセットする"
+    },
+    "NOTIFICATIONS": {
+        "TITLE": "ポモドロは:",
+        "REST": "セッションを完成しました。\n休暇してください :)",
+        "COMPLETE": "休暇を完成しました。\n%{n}目のセッションを始まります。"
+    }
+}
