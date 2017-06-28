@@ -16,8 +16,8 @@ const startIcon = <FontIcon className="material-icons">play_arrow</FontIcon>
 const pauseIcon = <FontIcon className="material-icons">pause</FontIcon>
 const resetIcon = <FontIcon className="material-icons">restore</FontIcon>
 
-const DEFAULT_REST_TIME = 0.1; // 25;
-const DEFAULT_SESSION_TIME = 0.1; // 25;
+const DEFAULT_REST_TIME = 5;
+const DEFAULT_SESSION_TIME = 25;
 
 class PomodoroMain extends React.Component {
     constructor(props) {
@@ -159,12 +159,12 @@ class PomodoroMain extends React.Component {
                         <h2>{this.t("SET_SESSION_TIME")}</h2>
                         <PomodoroNumberInput 
                             value={this.clock.sessionTime}
-                            setValue={m => this.sessionTime = 0.2 }></PomodoroNumberInput>
+                            setValue={m => this.sessionTime = m }></PomodoroNumberInput>
 
                         <h2>{this.t("SET_REST_TIME")}</h2>
                         <PomodoroNumberInput 
                             value={this.clock.restTime}
-                            setValue={m => this.restTime = 0.2 }></PomodoroNumberInput>
+                            setValue={m => this.restTime = m }></PomodoroNumberInput>
                     </div>
 
                     <BottomNavigation>
