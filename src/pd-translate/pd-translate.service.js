@@ -18,7 +18,7 @@ let polyglots = {
     ja: new Polyglot({ phrases: Japanese })
 };
 
-let userLanguage = (navigator.language || navigator.userLanguage).split('-')[0];
+let userLanguage = (navigator.language || navigator.userLanguage).split('-')[0].toLowerCase();
 if (userLanguage !== LANG.EN && userLanguage !== LANG.ES && userLanguage !== LANG.JA) { // non supported language
     userLanguage = LANG.EN;
 }

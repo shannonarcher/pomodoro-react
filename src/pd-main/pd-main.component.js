@@ -10,34 +10,26 @@ import AppBar from 'material-ui/AppBar';
 
 import {translate} from '../pd-translate/pd-translate.service';
 import {PomodoroNumberInput} from '../pd-number-input/pd-number-input.component';
+import {PomodoroClockService} from '../pd-clock/pd-clock.service.js';
 
 const startIcon = <FontIcon className="material-icons">play_arrow</FontIcon>
 const pauseIcon = <FontIcon className="material-icons">pause</FontIcon>
 const resetIcon = <FontIcon className="material-icons">restore</FontIcon>
 
-const DEFAULT_REST_TIME = 5;
-const DEFAULT_SESSION_TIME = 25;
+const DEFAULT_REST_TIME = 0.1; // 25;
+const DEFAULT_SESSION_TIME = 0.1; // 25;
 
 class PomodoroMain extends React.Component {
     constructor(props) {
         super();
+        
+        this.clock = new PomodoroClockService(DEFAULT_SESSION_TIME, DEFAULT_REST_TIME);
 
         this.state = {
-            resting: false,
-            running: false,
-            startTime: 0,
-            pauseTime: 0,
-            sessionNo: 1,
-            currentTime: {
-                minutes: '00',
-                seconds: '00'  
-            },
-            timeAtRun: {
-                sessionTime: 0,
-                restTime: 0
-            },
-            sessionTime: DEFAULT_SESSION_TIME,
-            restTime: DEFAULT_REST_TIME
+            notifiedRest: false,
+            minutes: '00',
+            seconds: '00',
+            sessionNo: 1
         };
 
         this.t = props.t;
@@ -46,40 +38,17 @@ class PomodoroMain extends React.Component {
     }
 
     run() {
-        if (this.state.running) {
-            return;
-        }
-
-        let diff = 0;
-        if (this.state.startTime !== 0 && this.state.pauseTime !== 0) {
-            diff = this.state.pauseTime - this.state.startTime;
-        }
-        this.setState({ 
-            running: true,
-            startTime: Date.now() - diff,
-            timeAtRun: {
-                sessionTime: this.state.sessionTime,
-                restTime: this.state.restTime
-            }
-        });
-        
+        this.clock.run();        
         this.tick();
     }
 
     pause() {
-        this.setState({
-            running: false,
-            pauseTime: Date.now()
-        });
+        this.clock.pause();
     }
 
     reset() {
-        this.setState({
-            running: false,
-            resting: false,
-            startTime: Date.now(),
-            pauseTime: 0
-        });
+        this.clock.reset();
+        this.setState({ notifiedRest: false });
 
         setTimeout(() => {
             this.updateClock();
@@ -88,45 +57,46 @@ class PomodoroMain extends React.Component {
 
     tick() {
         setTimeout(() => {
-            if (this.state.running) {
+            if (this.clock.running) {
                 this.updateClock();
                 this.tick();
             }
         }, 100);
     }
 
-    updateClock() {
-        let totalTime = this.state.timeAtRun.sessionTime + this.state.timeAtRun.restTime;
-        let diffMs = (totalTime * 60000 + this.state.startTime) - Date.now();
-        let currentTime = Math.round(diffMs / 1000);
+    set sessionTime(m) {
+        this.setState({
+            sessionTime: m
+        });
+        this.clock.sessionTime = m;
+    }
+    
+    set restTime(m) {
+        this.setState({
+            restTime: m
+        });
+        this.clock.restTime = m;
+    }
 
-        if (currentTime < this.state.timeAtRun.restTime * 60 && !this.state.resting) {
-            this.setState({ resting: true });
+    updateClock() {
+        if (this.clock.resting && !this.state.notifiedRest) {
+            this.setState({ notifiedRest: true });
             this.notify(this.t("NOTIFICATIONS.REST"));
         }
-        
-        if (!this.state.resting) {
-            currentTime -= this.state.timeAtRun.restTime * 60;
-            if (currentTime < 0) {
-                currentTime = 0;
-            }
-        }
 
-        if (currentTime < 0 && this.state.resting) {
-            currentTime = 0;
-            this.reset();
-            this.setState({ sessionNo: this.state.sessionNo + 1 });
+        if (this.clock.finished) {
+            this.setState({ 
+                sessionNo: this.state.sessionNo + 1 
+            });
             this.notify(this.t("NOTIFICATIONS.COMPLETE", { n: this.state.sessionNo }));
+            this.reset();
         }
 
         this.setState({
-            currentTime: {
-                minutes: ('0' + Math.floor(currentTime / 60)).substr(-2),
-                seconds: ('0' + currentTime % 60).substr(-2)
-            }
+            minutes: this.clock.minutes,
+            seconds: this.clock.seconds
         });
-
-        this.setDocumentTitle(this.state.currentTime.minutes, this.state.currentTime.seconds);
+        this.setDocumentTitle(this.clock.minutes, this.clock.seconds);
     }
 
     notify(message) {
@@ -184,17 +154,17 @@ class PomodoroMain extends React.Component {
                     />
 
                     <div className="center-text padding-bottom-15px">
-                        <div className="timer">{this.state.currentTime.minutes}:{this.state.currentTime.seconds}</div>
+                        <div className="timer">{this.state.minutes}:{this.state.seconds}</div>
 
                         <h2>{this.t("SET_SESSION_TIME")}</h2>
                         <PomodoroNumberInput 
-                            value={this.state.sessionTime}
-                            setValue={m => this.setState({ sessionTime: 0.2 })}></PomodoroNumberInput>
+                            value={this.clock.sessionTime}
+                            setValue={m => this.sessionTime = 0.2 }></PomodoroNumberInput>
 
                         <h2>{this.t("SET_REST_TIME")}</h2>
                         <PomodoroNumberInput 
-                            value={this.state.restTime}
-                            setValue={m => this.setState({ restTime: 0.2 })}></PomodoroNumberInput>
+                            value={this.clock.restTime}
+                            setValue={m => this.restTime = 0.2 }></PomodoroNumberInput>
                     </div>
 
                     <BottomNavigation>

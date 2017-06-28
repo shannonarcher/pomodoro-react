@@ -8,7 +8,7 @@
     "SET_SESSION_TIME": "セッションの時を設定する（分）",
     "SET_REST_TIME": "休暇の時を設定する（分）",
     "ACTIONS": {
-        "START": "セッションを始め",
+        "START": "セッションを開始する",
         "PAUSE": "休止する",
         "RESET": "レセットする"
     },
