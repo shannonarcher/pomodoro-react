@@ -16,5 +16,10 @@
         "TITLE": "ポモドロは:",
         "REST": "セッションを完成しました。\n休暇してください :)",
         "COMPLETE": "休暇を完成しました。\n%{n}目のセッションを始まります。"
+    },
+    "LANGUAGES": {
+        "ENGLISH": "English",
+        "SPANISH": "Español",
+        "JAPANESE": "日本語"
     }
 }
