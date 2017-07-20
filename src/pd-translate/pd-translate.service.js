@@ -26,12 +26,15 @@ const UserLanguage = userLanguage;
 
 const translate = (InnerComponent, lang = UserLanguage) => {
     return class TranslateComponent extends React.Component {
+        setLanguage(code) {
+            lang = code;
+        }
         translate(...params) {
             return polyglots[lang].t(...params);
         }
         render() {
             return (
-                <InnerComponent {...this.props} t={this.translate} />
+                <InnerComponent {...this.props} t={this.translate} setLanguage={this.setLanguage} />
             );
         }
     };
