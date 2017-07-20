@@ -1,11 +1,26 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
 @import url('https://fonts.googleapis.com/css?family=Material+Icons');
 
+html, body {
+    height:100%;
+    width:100%;
+    margin:0;
+    padding:0;
+}
+
+#root {
+    padding:10px;
+    display:flex;
+    align-content: center;
+    justify-content: center;
+}
+
 .timer {
     font-size:96px;
 }
 .center-text {
     text-align:center;
+    padding:0 20px;
 }
 .padding-bottom-15px {
     padding-bottom:15px;
@@ -14,4 +29,8 @@
 .number-input__value {
     font-size:64px;
     margin:0 20px;
+}
+
+button {
+    white-space:nowrap;
 }
