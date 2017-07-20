@@ -16,5 +16,10 @@
         "TITLE": "Pomodoro Says:",
         "REST": "Session complete.\nTake a break :)",
         "COMPLETE": "Rest complete.\nRunning Session #%{n}"
+    },
+    "LANGUAGES": {
+        "ENGLISH": "English",
+        "SPANISH": "Español",
+        "JAPANESE": "日本語"
     }
 }

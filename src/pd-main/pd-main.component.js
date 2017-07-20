@@ -7,8 +7,9 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import AppBar from 'material-ui/AppBar';
+import Divider from 'material-ui/Divider';
 
-import {translate} from '../pd-translate/pd-translate.service';
+import {translate,LANG} from '../pd-translate/pd-translate.service';
 import {PomodoroNumberInput} from '../pd-number-input/pd-number-input.component';
 import {PomodoroClockService} from '../pd-clock/pd-clock.service.js';
 
@@ -29,10 +30,17 @@ class PomodoroMain extends React.Component {
             notifiedRest: false,
             minutes: '00',
             seconds: '00',
-            sessionNo: 1
+            sessionNo: 1,
+            languageUpdate: 0
         };
 
         this.t = props.t;
+        this.setLanguage = (code) => {
+            props.setLanguage(code);
+            this.setState({ 
+                languageUpdate: Date.now() 
+            });
+        };
 
         Notification.requestPermission();
     }
@@ -149,6 +157,10 @@ class PomodoroMain extends React.Component {
                                 anchorOrigin={{horizontal:'right', vertical:'top'}}
                             >
                                 <MenuItem onTouchTap={() => window.location.href = this.t("APP.POMODORO_LINK")} primaryText={this.t("APP.WHATS_POMODORO")} />
+                                <Divider />
+                                <MenuItem onTouchTap={() => this.setLanguage(LANG.EN)} primaryText={this.t("LANGUAGES.ENGLISH")} />
+                                <MenuItem onTouchTap={() => this.setLanguage(LANG.ES)} primaryText={this.t("LANGUAGES.SPANISH")} />
+                                <MenuItem onTouchTap={() => this.setLanguage(LANG.JA)} primaryText={this.t("LANGUAGES.JAPANESE")} />
                             </IconMenu>
                         }
                     />

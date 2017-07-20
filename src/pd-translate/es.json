@@ -16,5 +16,10 @@
         "TITLE": "Pomodoro dice:",
         "REST": "Sesión completa.\nTomar pausa :)",
         "COMPLETE": "Descanso completo.\nInicio de Sesión #%{n}"
+    },
+    "LANGUAGES": {
+        "ENGLISH": "English",
+        "SPANISH": "Español",
+        "JAPANESE": "日本語"
     }
 }
